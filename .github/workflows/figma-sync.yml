@@ -1,0 +1,34 @@
+name: Sync Icons from Figma
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Figma sync
+        run: npm run sync
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FILE_ID: ${{ secrets.FILE_ID }}
+
+      - name: Commit and push icons
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add icons/
+          git commit -m "Sync icons from Figma" || echo "No changes"
+          git push

@@ -68,7 +68,12 @@ function sanitizeName(name) {
 
   const fileJson = await getFileData();
   const page = findPageByName(fileJson, PAGE_NAME);
-  if (!page) throw new Error(`Page '${PAGE_NAME}' not found`);
+console.log("Available pages in Figma file:");
+fileJson.document.children.forEach((page) => {
+  console.log(`- ${page.name}`);
+});
+if (!page) throw new Error(`Page '${PAGE_NAME}' not found`);
+  
 
   const iconNodes = getAllComponentNodes(page);
   const nodeIds = iconNodes.map((n) => n.id);

@@ -2,6 +2,9 @@ name: Sync Icons from Figma
 
 on:
   workflow_dispatch:
+    
+permissions:
+  contents: write
 
 jobs:
   sync:

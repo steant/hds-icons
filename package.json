@@ -1,0 +1,10 @@
+{
+  "name": "icon-sync",
+  "version": "1.0.0",
+  "scripts": {
+    "sync": "node scripts/figma-sync.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}

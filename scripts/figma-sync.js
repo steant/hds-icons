@@ -67,12 +67,16 @@ function sanitizeName(name) {
   fs.mkdirSync(ICONS_DIR, { recursive: true });
 
   const fileJson = await getFileData();
-  const page = findPageByName(fileJson, PAGE_NAME);
-console.log("Available pages in Figma file:");
-fileJson.document.children.forEach((page) => {
-  console.log(`- ${page.name}`);
-});
-if (!page) throw new Error(`Page '${PAGE_NAME}' not found`);
+  const pages = fileJson.document.children;
+console.log("🧭 Available pages in your Figma file:");
+pages.forEach((page) => console.log("- " + page.name));
+
+const page = pages.find((p) => p.name === PAGE_NAME && p.type === "CANVAS");
+
+if (!page) {
+  throw new Error(`❌ Page '${PAGE_NAME}' not found. Please check the name above and update PAGE_NAME.`);
+}
+
   
 
   const iconNodes = getAllComponentNodes(page);

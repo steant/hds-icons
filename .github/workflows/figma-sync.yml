@@ -33,21 +33,18 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Pull latest changes first to avoid push rejection
+          # Stage icon files and icons.json (if exists) BEFORE rebase
+          find icons -type f -name '*.svg' -exec git add {} +
+          [ -f icons.json ] && git add icons.json
+
+          # Pull latest from main to avoid push rejection
           git pull --rebase origin main
-
-          # Confirm icons.json exists and output it
-          ls -la icons.json || echo "icons.json not found"
-          cat icons.json || echo "icons.json is empty or unreadable"
-
-          # Stage relevant files
-          git add icons/ icons.json
 
           echo "---- GIT STATUS BEFORE COMMIT ----"
           git status
           echo "----------------------------------"
 
-          # Only commit if there are staged changes
+          # Only commit if something was staged
           if git diff --cached --quiet; then
             echo "🟢 No changes to commit"
           else

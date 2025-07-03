@@ -64,6 +64,8 @@ function sanitizeName(name) {
 
 // Main logic
 (async () => {
+  console.log("🔥 Sync started");
+
   fs.mkdirSync(ICONS_DIR, { recursive: true });
 
   const fileJson = await getFileData();
@@ -90,10 +92,14 @@ function sanitizeName(name) {
     }
   }
 
-  // ✅ Generate icons.json
-  const iconFilenames = iconNodes.map((n) => sanitizeName(n.name) + ".svg");
+  // ✅ Generate icons.json with timestamp
+  const jsonData = {
+    generated_at: new Date().toISOString(),
+    icons: iconNodes.map((n) => sanitizeName(n.name) + ".svg")
+  };
+
   const jsonPath = path.join(__dirname, "..", "icons.json");
-  fs.writeFileSync(jsonPath, JSON.stringify(iconFilenames, null, 2));
+  fs.writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2));
   console.log("📝 icons.json written to", jsonPath);
 
   console.log("✅ Done syncing icons and generating icons.json.");

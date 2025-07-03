@@ -98,5 +98,5 @@ function sanitizeName(name) {
     JSON.stringify(iconFilenames, null, 2)
   );
 
-  console.log("✅ Done syncing icons and generating icons.json.");
+  console.log("📝 icons.json written to", jsonPath);
 })();

@@ -5,7 +5,7 @@ const path = require("path");
 // Environment variables
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
 const FILE_ID = process.env.FILE_ID;
-const PAGE_NAME = "Icons "; // Update to your actual Figma page name
+const PAGE_NAME = "Icons"; // Update to your actual Figma page name
 
 const ICONS_DIR = path.join(__dirname, "..", "icons");
 

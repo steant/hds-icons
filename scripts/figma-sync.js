@@ -9,13 +9,6 @@ const PAGE_NAME = "Icons";
 
 const ICONS_DIR = path.join(__dirname, "..", "icons");
 
-// Helper: Find page by name
-function findPageByName(fileJson, pageName) {
-  return fileJson.document.children.find(
-    (page) => page.name === pageName && page.type === "CANVAS"
-  );
-}
-
 // Helper: Recursively collect components and instances
 function getAllComponentNodes(node) {
   let components = [];
@@ -28,6 +21,11 @@ function getAllComponentNodes(node) {
     }
   }
   return components;
+}
+
+// Normalize filenames
+function sanitizeName(name) {
+  return name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
 }
 
 // Fetch Figma file structure
@@ -57,11 +55,6 @@ async function downloadSvg(url, name) {
   fs.writeFileSync(filePath, svg);
 }
 
-// Optional: normalize filenames
-function sanitizeName(name) {
-  return name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "");
-}
-
 // Main logic
 (async () => {
   console.log("🔥 Sync started");
@@ -69,38 +62,50 @@ function sanitizeName(name) {
   fs.mkdirSync(ICONS_DIR, { recursive: true });
 
   const fileJson = await getFileData();
-  const pages = fileJson.document.children;
-  console.log("🧭 Available pages in your Figma file:");
-  pages.forEach((page) => console.log("- " + page.name));
+  const page = fileJson.document.children.find(
+    (p) => p.name === PAGE_NAME && p.type === "CANVAS"
+  );
 
-  const page = pages.find((p) => p.name === PAGE_NAME && p.type === "CANVAS");
   if (!page) {
-    throw new Error(`❌ Page '${PAGE_NAME}' not found. Please check the name above and update PAGE_NAME.`);
+    throw new Error(`❌ Page '${PAGE_NAME}' not found.`);
   }
 
   const iconNodes = getAllComponentNodes(page);
   const nodeIds = iconNodes.map((n) => n.id);
   const imageUrls = await exportSvg(nodeIds);
 
+  const currentFilenames = [];
+
   for (const node of iconNodes) {
+    const sanitized = sanitizeName(node.name);
+    const filename = `${sanitized}.svg`;
     const url = imageUrls[node.id];
     if (url) {
-      console.log(`⬇️  Downloading: ${node.name}`);
       await downloadSvg(url, node.name);
+      currentFilenames.push(filename);
+      console.log(`⬇️  Synced: ${filename}`);
     } else {
       console.warn(`⚠️  No URL for ${node.name}`);
     }
   }
 
-  // ✅ Generate icons.json with timestamp
+  // 🧹 Delete unused icons
+  const existingFiles = fs.readdirSync(ICONS_DIR).filter(f => f.endsWith(".svg"));
+  const toDelete = existingFiles.filter(f => !currentFilenames.includes(f));
+
+  for (const file of toDelete) {
+    const filePath = path.join(ICONS_DIR, file);
+    fs.unlinkSync(filePath);
+    console.log(`🗑️  Deleted: ${file}`);
+  }
+
+  // 📝 Generate icons.json
   const jsonData = {
     generated_at: new Date().toISOString(),
-    icons: iconNodes.map((n) => sanitizeName(n.name) + ".svg")
+    icons: currentFilenames,
   };
 
   const jsonPath = path.join(__dirname, "..", "icons.json");
   fs.writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2));
-  console.log("📝 icons.json written to", jsonPath);
-
-  console.log("✅ Done syncing icons and generating icons.json.");
+  console.log("✅ icons.json written and unused icons cleaned.");
 })();

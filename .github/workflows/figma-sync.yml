@@ -1,6 +1,13 @@
 name: Sync Icons from Figma
 
 on:
+  push:
+    paths:
+      - scripts/figma-sync.js
+      - .github/workflows/figma-sync.yml
+      - package.json
+      - icons.json
+      - icons/**
   workflow_dispatch:
 
 permissions:
@@ -57,3 +64,12 @@ jobs:
           else
             echo "🟢 Nothing to push"
           fi
+
+      - name: Zip icons folder
+        run: zip -r icons.zip icons
+
+      - name: Upload icons.zip as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: icons-zip
+          path: icons.zip

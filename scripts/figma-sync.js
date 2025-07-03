@@ -5,7 +5,7 @@ const path = require("path");
 // Environment variables
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
 const FILE_ID = process.env.FILE_ID;
-const PAGE_NAME = "Icons"; // Update to your actual Figma page name
+const PAGE_NAME = "Icons";
 
 const ICONS_DIR = path.join(__dirname, "..", "icons");
 
@@ -72,7 +72,6 @@ function sanitizeName(name) {
   pages.forEach((page) => console.log("- " + page.name));
 
   const page = pages.find((p) => p.name === PAGE_NAME && p.type === "CANVAS");
-
   if (!page) {
     throw new Error(`❌ Page '${PAGE_NAME}' not found. Please check the name above and update PAGE_NAME.`);
   }

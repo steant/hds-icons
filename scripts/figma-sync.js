@@ -5,7 +5,7 @@ const path = require("path");
 // Environment variables
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
 const FILE_ID = process.env.FILE_ID;
-const PAGE_NAME = "Icons"; // Change this if your page is named differently
+const PAGE_NAME = "Icons "; // Update to your actual Figma page name
 
 const ICONS_DIR = path.join(__dirname, "..", "icons");
 
@@ -68,20 +68,17 @@ function sanitizeName(name) {
 
   const fileJson = await getFileData();
   const pages = fileJson.document.children;
-console.log("🧭 Available pages in your Figma file:");
-pages.forEach((page) => console.log("- " + page.name));
+  console.log("🧭 Available pages in your Figma file:");
+  pages.forEach((page) => console.log("- " + page.name));
 
-const page = pages.find((p) => p.name === PAGE_NAME && p.type === "CANVAS");
+  const page = pages.find((p) => p.name === PAGE_NAME && p.type === "CANVAS");
 
-if (!page) {
-  throw new Error(`❌ Page '${PAGE_NAME}' not found. Please check the name above and update PAGE_NAME.`);
-}
-
-  
+  if (!page) {
+    throw new Error(`❌ Page '${PAGE_NAME}' not found. Please check the name above and update PAGE_NAME.`);
+  }
 
   const iconNodes = getAllComponentNodes(page);
   const nodeIds = iconNodes.map((n) => n.id);
-
   const imageUrls = await exportSvg(nodeIds);
 
   for (const node of iconNodes) {
@@ -94,11 +91,12 @@ if (!page) {
     }
   }
 
-  console.log("✅ Done syncing icons.");
+  // ✅ Generate icons.json
+  const iconFilenames = iconNodes.map((n) => sanitizeName(n.name) + ".svg");
+  fs.writeFileSync(
+    path.join(__dirname, "..", "icons.json"),
+    JSON.stringify(iconFilenames, null, 2)
+  );
+
+  console.log("✅ Done syncing icons and generating icons.json.");
 })();
-
-
-fs.writeFileSync(
-  path.join(__dirname, "..", "icons.json"),
-  JSON.stringify(iconNodes.map((n) => sanitizeName(n.name) + ".svg"), null, 2)
-);

@@ -28,10 +28,10 @@ jobs:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FILE_ID: ${{ secrets.FILE_ID }}
 
-      - name: Commit and push icons
+      - name: Commit and push icons and icons.json
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add icons/
+          git add icons/ icons.json
           git commit -m "Sync icons from Figma" || echo "No changes"
           git push

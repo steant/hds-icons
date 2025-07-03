@@ -2,7 +2,7 @@ name: Sync Icons from Figma
 
 on:
   workflow_dispatch:
-    
+
 permissions:
   contents: write
 
@@ -33,15 +33,24 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Pull latest changes to avoid non-fast-forward errors
+          # Pull latest changes first to avoid push rejection
           git pull --rebase origin main
 
-          # Add only relevant files
+          # Confirm icons.json exists and output it
+          ls -la icons.json || echo "icons.json not found"
+          cat icons.json || echo "icons.json is empty or unreadable"
+
+          # Stage relevant files
           git add icons/ icons.json
 
-          # Show current status (debug)
+          echo "---- GIT STATUS BEFORE COMMIT ----"
           git status
+          echo "----------------------------------"
 
-          # Commit and push if needed
-          git commit -m "Sync icons from Figma" || echo "No changes"
-          git push
+          # Only commit if there are staged changes
+          if git diff --cached --quiet; then
+            echo "🟢 No changes to commit"
+          else
+            git commit -m "Sync icons from Figma"
+            git push
+          fi

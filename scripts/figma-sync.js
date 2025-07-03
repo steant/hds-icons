@@ -93,10 +93,10 @@ function sanitizeName(name) {
 
   // ✅ Generate icons.json
   const iconFilenames = iconNodes.map((n) => sanitizeName(n.name) + ".svg");
-  fs.writeFileSync(
-    path.join(__dirname, "..", "icons.json"),
-    JSON.stringify(iconFilenames, null, 2)
-  );
+  const jsonPath = path.join(__dirname, "..", "icons.json");
+  fs.writeFileSync(jsonPath, JSON.stringify(iconFilenames, null, 2));
+  console.log("📝 icons.json written to", jsonPath);
+  
 
   console.log("📝 icons.json written to", jsonPath);
 })();

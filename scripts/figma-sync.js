@@ -96,7 +96,6 @@ function sanitizeName(name) {
   const jsonPath = path.join(__dirname, "..", "icons.json");
   fs.writeFileSync(jsonPath, JSON.stringify(iconFilenames, null, 2));
   console.log("📝 icons.json written to", jsonPath);
-  
 
-  console.log("📝 icons.json written to", jsonPath);
+  console.log("✅ Done syncing icons and generating icons.json.");
 })();

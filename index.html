@@ -42,15 +42,7 @@
   <div class="grid" id="icon-grid"></div>
 
   <script>
-    const ICON_FOLDER = 'icons';
     const ICONS = [];
-
-    async function loadIcons() {
-      const res = await fetch(ICON_FOLDER);
-      const text = await res.text();
-      const matches = [...text.matchAll(/href="([^"]+\.svg)"/g)];
-      return matches.map(m => m[1]);
-    }
 
     function renderIcons(icons) {
       const grid = document.getElementById('icon-grid');
@@ -59,7 +51,7 @@
         const el = document.createElement('div');
         el.className = 'icon';
         el.innerHTML = `
-          <img src="${ICON_FOLDER}/${name}" alt="${name}" />
+          <img src="icons/${name}" alt="${name}" />
           <div>${name.replace('.svg', '')}</div>
         `;
         grid.appendChild(el);
@@ -72,10 +64,12 @@
       renderIcons(filtered);
     });
 
-    loadIcons().then((icons) => {
-      ICONS.push(...icons);
-      renderIcons(ICONS);
-    });
+    fetch("icons.json")
+      .then(res => res.json())
+      .then(data => {
+        ICONS.push(...data);
+        renderIcons(ICONS);
+      });
   </script>
 
 </body>

@@ -30,11 +30,18 @@ jobs:
 
       - name: Commit and push icons and icons.json
         run: |
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add icons/ icons.json
-            git commit -m "Sync icons from Figma" || echo "No changes"
-            git pull --rebase origin main
-            git push
-        
-        
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          # Pull latest changes to avoid non-fast-forward errors
+          git pull --rebase origin main
+
+          # Add only relevant files
+          git add icons/ icons.json
+
+          # Show current status (debug)
+          git status
+
+          # Commit and push if needed
+          git commit -m "Sync icons from Figma" || echo "No changes"
+          git push

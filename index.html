@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Icon Gallery</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 960px;
+      margin: auto;
+    }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 1rem;
+    }
+    .icon {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    .icon img {
+      height: 40px;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Icon Gallery</h1>
+  <input type="text" id="search" placeholder="Search icons..." />
+
+  <div class="grid" id="icon-grid"></div>
+
+  <script>
+    const ICON_FOLDER = 'icons';
+    const ICONS = [];
+
+    async function loadIcons() {
+      const res = await fetch(ICON_FOLDER);
+      const text = await res.text();
+      const matches = [...text.matchAll(/href="([^"]+\.svg)"/g)];
+      return matches.map(m => m[1]);
+    }
+
+    function renderIcons(icons) {
+      const grid = document.getElementById('icon-grid');
+      grid.innerHTML = '';
+      icons.forEach(name => {
+        const el = document.createElement('div');
+        el.className = 'icon';
+        el.innerHTML = `
+          <img src="${ICON_FOLDER}/${name}" alt="${name}" />
+          <div>${name.replace('.svg', '')}</div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    document.getElementById('search').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = ICONS.filter(name => name.toLowerCase().includes(q));
+      renderIcons(filtered);
+    });
+
+    loadIcons().then((icons) => {
+      ICONS.push(...icons);
+      renderIcons(ICONS);
+    });
+  </script>
+
+</body>
+</html>

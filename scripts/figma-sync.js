@@ -96,3 +96,9 @@ if (!page) {
 
   console.log("✅ Done syncing icons.");
 })();
+
+
+fs.writeFileSync(
+  path.join(__dirname, "..", "icons.json"),
+  JSON.stringify(iconNodes.map((n) => sanitizeName(n.name) + ".svg"), null, 2)
+);

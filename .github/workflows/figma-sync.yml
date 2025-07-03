@@ -33,21 +33,27 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Stage icon files and icons.json (if exists) BEFORE rebase
+          # Stage files BEFORE pulling to avoid index error
           find icons -type f -name '*.svg' -exec git add {} +
           [ -f icons.json ] && git add icons.json
 
-          # Pull latest from main to avoid push rejection
-          git pull --rebase origin main
-
-          echo "---- GIT STATUS BEFORE COMMIT ----"
+          echo "---- GIT STATUS BEFORE PULL ----"
           git status
-          echo "----------------------------------"
+          echo "--------------------------------"
 
-          # Only commit if something was staged
+          # Commit changes (before pull)
           if git diff --cached --quiet; then
             echo "🟢 No changes to commit"
           else
             git commit -m "Sync icons from Figma"
+          fi
+
+          # Pull remote changes (safe now)
+          git pull --rebase origin main
+
+          # Push if commit was made
+          if git log -1 --pretty=%B | grep -q "Sync icons from Figma"; then
             git push
+          else
+            echo "🟢 Nothing to push"
           fi

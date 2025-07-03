@@ -35,27 +35,33 @@ jobs:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FILE_ID: ${{ secrets.FILE_ID }}
 
-      - name: Commit and push icons and icons.json
+      - name: Create dist folder and zip icons
+        run: |
+          mkdir -p dist
+          zip -r dist/icons.zip icons
+
+      - name: Commit and push icons and zip
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Stage files BEFORE pulling to avoid index error
+          # Stage all icon files, icons.json, and zipped output
           find icons -type f -name '*.svg' -exec git add {} +
           [ -f icons.json ] && git add icons.json
+          [ -f dist/icons.zip ] && git add dist/icons.zip
 
           echo "---- GIT STATUS BEFORE PULL ----"
           git status
           echo "--------------------------------"
 
-          # Commit changes (before pull)
+          # Commit changes
           if git diff --cached --quiet; then
             echo "🟢 No changes to commit"
           else
             git commit -m "Sync icons from Figma"
           fi
 
-          # Pull remote changes (safe now)
+          # Pull remote changes
           git pull --rebase origin main
 
           # Push if commit was made
@@ -64,12 +70,3 @@ jobs:
           else
             echo "🟢 Nothing to push"
           fi
-
-      - name: Zip icons folder
-        run: zip -r icons.zip icons
-
-      - name: Upload icons.zip as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: icons-zip
-          path: icons.zip

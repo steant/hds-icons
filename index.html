@@ -65,11 +65,16 @@
     });
 
     fetch("icons.json")
-      .then(res => res.json())
-      .then(data => {
-        ICONS.push(...data);
-        renderIcons(ICONS);
-      });
+  .then(res => res.json())
+  .then(data => {
+    if (!Array.isArray(data.icons)) {
+      console.error("Invalid icons.json format");
+      return;
+    }
+    ICONS.push(...data.icons);
+    renderIcons(ICONS);
+  });
+
   </script>
 
 </body>

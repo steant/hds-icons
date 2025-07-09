@@ -35,38 +35,50 @@ jobs:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FILE_ID: ${{ secrets.FILE_ID }}
 
-      - name: Create dist folder and zip icons
+      - name: Create dist folder and zip icons (keep latest 2)
         run: |
           mkdir -p dist
-          zip -r dist/icons.zip icons
+          VERSION=$(jq -r .version icons.json)
+          ZIP_NAME="icons-v$VERSION.zip"
+
+          # Create zip
+          zip -r "dist/$ZIP_NAME" icons
+
+          # Keep only the 2 most recent zip files
+          ls -1t dist/icons-v*.zip | tail -n +3 | xargs -r rm
+
+          echo "🗂️  Kept latest 2 zips. Created $ZIP_NAME"
 
       - name: Commit and push icons and zip
+        id: commit
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
 
-          # Stage all icon files, icons.json, and zipped output
           find icons -type f -name '*.svg' -exec git add {} +
           [ -f icons.json ] && git add icons.json
-          [ -f dist/icons.zip ] && git add dist/icons.zip
+          [ -f icons.version.json ] && git add icons.version.json
+          [ -f dist/icons-v*.zip ] && git add dist/icons-v*.zip
 
-          echo "---- GIT STATUS BEFORE PULL ----"
-          git status
-          echo "--------------------------------"
-
-          # Commit changes
           if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
             echo "🟢 No changes to commit"
           else
             git commit -m "Sync icons from Figma"
-          fi
-
-          # Pull remote changes
-          git pull --rebase origin main
-
-          # Push if commit was made
-          if git log -1 --pretty=%B | grep -q "Sync icons from Figma"; then
+            git pull --rebase origin main
             git push
-          else
-            echo "🟢 Nothing to push"
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Notify Slack
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          VERSION=$(jq -r .version icons.json)
+          COUNT=$(jq '.icons | length' icons.json)
+          REPO_NAME=$(basename ${{ github.repository }})
+          REPO_OWNER=$(dirname ${{ github.repository }})
+          DOWNLOAD_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/dist/icons-v${VERSION}.zip"
+
+          curl -X POST -H 'Content-type: application/json' --data "{
+            \"text\": \"✅ *Icons synced!*\n📦 Version: *v$VERSION*\n🔢 Total icons: *$COUNT*\n⬇️ <${DOWNLOAD_URL}|Download icons-v${VERSION}.zip>\"
+          }" ${{ secrets.SLACK_WEBHOOK }}

@@ -3,42 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <title>Icon Gallery</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      max-width: 960px;
-      margin: auto;
-    }
-    input {
-      padding: 0.5rem;
-      font-size: 1rem;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      gap: 1rem;
-    }
-    .icon {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #444;
-    }
-    .icon img {
-      height: 40px;
-      margin-bottom: 0.5rem;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <script>
+   function timeAgo(isoString) {
+  const now = new Date();
+  const then = new Date(isoString);
+  const diffMs = now - then;
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffHr = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHr / 24);
 
+  if (diffSec < 60) return `just now`;
+  if (diffMin < 60) return `${diffMin} minute${diffMin === 1 ? "" : "s"} ago`;
+  if (diffHr < 24) return `${diffHr} hour${diffHr === 1 ? "" : "s"} ago`;
+  return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
+}
+
+fetch("icons.json")
+  .then(res => res.json())
+  .then(data => {
+    if (!Array.isArray(data.icons)) {
+      console.error("Invalid icons.json format");
+      return;
+    }
+
+    const syncInfo = document.getElementById("sync-info");
+    const versionInfo = document.getElementById("version-info");
+
+    if (data.generated_at) {
+      syncInfo.textContent = `🕓 Last synced: ${timeAgo(data.generated_at)}`;
+    } else {
+      syncInfo.textContent = "🕓 Last synced: Unknown";
+    }
+
+    if (data.version) {
+      versionInfo.textContent = `📦 Version: v${data.version}`;
+    } else {
+      versionInfo.textContent = "📦 Version: Unknown";
+    }
+
+    ICONS.push(...data.icons);
+    renderIcons(ICONS);
+  })
+  .catch(err => {
+    console.error("Failed to load icons.json:", err);
+    document.getElementById("sync-info").textContent = "⚠️ Failed to load sync info.";
+    document.getElementById("version-info").textContent = "";
+  });
+
+
+  </script>
   <h1>Icon Gallery</h1>
   <input type="text" id="search" placeholder="Search icons..." />
-
+  <div id="sync-info" class="sync-info">Loading last sync info...</div>
+  <div id="version-info" class="sync-info"></div>
+  <a href="dist/icons.zip" download class="download-btn">Download zip</a>
   <div class="grid" id="icon-grid"></div>
 
   <script>

@@ -6,7 +6,6 @@ on:
       - scripts/figma-sync.js
       - .github/workflows/figma-sync.yml
       - package.json
-      - package-lock.json
       - icons.json
       - icons/**
   workflow_dispatch:
@@ -26,7 +25,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('package.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
 
@@ -36,7 +35,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Run Figma sync
         run: npm run sync
@@ -94,7 +93,7 @@ jobs:
             \"text\": \"✅ *Icons synced!*\n📦 Version: *v$VERSION*\n🔢 Total icons: *$COUNT*\n⬇️ <${DOWNLOAD_URL}|Download icons-v${VERSION}.zip>\"
           }" ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Cleanup node_modules and lock file
+      - name: Cleanup node_modules
         if: always()
         run: |
-          rm -rf node_modules package-lock.json
+          rm -rf node_modules

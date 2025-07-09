@@ -83,15 +83,17 @@ jobs:
       - name: Notify Slack
         if: steps.commit.outputs.changed == 'true'
         run: |
-          VERSION=$(jq -r .version icons.json)
-          COUNT=$(jq '.icons | length' icons.json)
-          REPO_NAME=$(basename ${{ github.repository }})
-          REPO_OWNER=$(dirname ${{ github.repository }})
-          DOWNLOAD_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/dist/icons-v${VERSION}.zip"
-
-          curl -X POST -H 'Content-type: application/json' --data "{
-            \"text\": \"✅ *Icons synced!*\n📦 Version: *v$VERSION*\n🔢 Total icons: *$COUNT*\n⬇️ <${DOWNLOAD_URL}|Download icons-v${VERSION}.zip>\"
-          }" ${{ secrets.SLACK_WEBHOOK }}
+            VERSION=$(jq -r .version icons.json)
+            COUNT=$(jq '.icons | length' icons.json)
+            REPO_NAME=$(basename ${{ github.repository }})
+            REPO_OWNER=$(dirname ${{ github.repository }})
+            DOWNLOAD_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/dist/icons-v${VERSION}.zip"
+            ICONS_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/"
+  
+            curl -X POST -H 'Content-type: application/json' --data "{
+              \"text\": \"✅ *Icons synced!*\n📦 Version: *v$VERSION*\n🔢 Total icons: *$COUNT*\n⬇️ <${DOWNLOAD_URL}|Download icons-v${VERSION}.zip>\n🔎 <${ICONS_URL}|View icons>\"
+            }" ${{ secrets.SLACK_WEBHOOK }}
+  
 
       - name: Cleanup node_modules
         if: always()

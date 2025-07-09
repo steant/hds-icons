@@ -35,41 +35,42 @@ jobs:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FILE_ID: ${{ secrets.FILE_ID }}
 
-      - name: Create dist folder and zip icons (keep latest 2)
+      - name: Create dist folder and zip icons
         run: |
           mkdir -p dist
-          VERSION=$(jq -r .version icons.json)
-          ZIP_NAME="icons-v$VERSION.zip"
-
-          # Create zip
-          zip -r "dist/$ZIP_NAME" icons
-
-          # Keep only the 2 most recent zip files
-          ls -1t dist/icons-v*.zip | tail -n +3 | xargs -r rm
-
-          echo "🗂️  Kept latest 2 zips. Created $ZIP_NAME"
+          zip -r dist/icons.zip icons
 
       - name: Commit and push icons and zip
-        id: commit
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
 
+          # Stage all icon files, icons.json, and zipped output
           find icons -type f -name '*.svg' -exec git add {} +
           [ -f icons.json ] && git add icons.json
-          [ -f icons.version.json ] && git add icons.version.json
-          [ -f dist/icons-v*.zip ] && git add dist/icons-v*.zip
+          [ -f dist/icons.zip ] && git add dist/icons.zip
 
+          echo "---- GIT STATUS BEFORE PULL ----"
+          git status
+          echo "--------------------------------"
+
+          # Commit changes
           if git diff --cached --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
             echo "🟢 No changes to commit"
           else
             git commit -m "Sync icons from Figma"
-            git pull --rebase origin main
-            git push
-            echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
+          # Pull remote changes
+          git pull --rebase origin main
+
+          # Push if commit was made
+          if git log -1 --pretty=%B | grep -q "Sync icons from Figma"; then
+            git push
+          else
+            echo "🟢 Nothing to push"
+          fi
+          
       - name: Notify Slack
         if: steps.commit.outputs.changed == 'true'
         run: |

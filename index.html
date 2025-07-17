@@ -63,8 +63,16 @@
       return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
     }
 
-    searchInput.addEventListener('input', (e) => {
+    function updateURL(q) {
+      const url = new URL(window.location);
+      if (q) url.searchParams.set('q', q);
+      else url.searchParams.delete('q');
+      window.history.replaceState(null, '', url);
+    }
+
+    searchInput.addEventListener('input', e => {
       const q = e.target.value.toLowerCase();
+      updateURL(q);
       const filtered = ICONS.filter(name => name.toLowerCase().includes(q));
       renderIcons(filtered);
     });
@@ -95,8 +103,14 @@
 
         countInfo.textContent = `🔢 Total icons: ${data.icons.length}`;
 
-        ICONS.splice(0, ICONS.length, ...data.icons); // 🔁 replace contents
-        renderIcons(ICONS); // initial full render
+        ICONS.splice(0, ICONS.length, ...data.icons);
+
+        // Apply initial search query from URL
+        const params = new URLSearchParams(window.location.search);
+        const initialQuery = params.get('q') || '';
+        searchInput.value = initialQuery;
+        const initialFiltered = ICONS.filter(name => name.toLowerCase().includes(initialQuery));
+        renderIcons(initialFiltered);
       })
       .catch(err => {
         console.error("Failed to load icons.json:", err);

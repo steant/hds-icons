@@ -1,6 +1,6 @@
 {
-  "version": "1.07",
-  "generated_at": "2025-09-15T09:56:21.660Z",
+  "version": "1.08",
+  "generated_at": "2025-09-25T08:43:53.979Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -170,6 +170,10 @@
     "upgrade-collection.svg",
     "save.svg",
     "columns.svg",
-    "breakdown.svg"
+    "breakdown.svg",
+    "assets.svg",
+    "brandkit.svg",
+    "export.svg",
+    "upload-cloud.svg"
   ]
 }

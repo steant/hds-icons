@@ -1,6 +1,6 @@
 {
-  "version": "1.09",
-  "generated_at": "2025-10-02T14:22:34.104Z",
+  "version": "1.10",
+  "generated_at": "2025-10-06T09:19:32.535Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -180,6 +180,8 @@
     "item-indicator.svg",
     "percentage.svg",
     "ap-collapse.svg",
-    "ap-expand.svg"
+    "ap-expand.svg",
+    "brand.svg",
+    "product-category.svg"
   ]
 }

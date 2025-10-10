@@ -1,6 +1,6 @@
 {
-  "version": "1.10",
-  "generated_at": "2025-10-06T09:19:32.535Z",
+  "version": "1.11",
+  "generated_at": "2025-10-10T10:47:21.271Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -37,7 +37,7 @@
     "download.svg",
     "image.svg",
     "info-fill.svg",
-    "progress.svg",
+    "in-progress-fill.svg",
     "add.svg",
     "preview-fill.svg",
     "preview.svg",
@@ -166,8 +166,9 @@
     "output-type-reddit.svg",
     "metric-icon-up.svg",
     "metric-icon-down.svg",
+    "rule-indicator-fill.svg",
     "rule-indicator.svg",
-    "override-indicator.svg",
+    "override-indicator-fill.svg",
     "upgrade-collection.svg",
     "save.svg",
     "columns.svg",
@@ -182,6 +183,7 @@
     "ap-collapse.svg",
     "ap-expand.svg",
     "brand.svg",
-    "product-category.svg"
+    "product-category.svg",
+    "override-indicator.svg"
   ]
 }

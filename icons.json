@@ -1,6 +1,6 @@
 {
-  "version": "1.12",
-  "generated_at": "2025-10-20T08:44:03.417Z",
+  "version": "1.13",
+  "generated_at": "2025-10-24T11:23:47.049Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -161,6 +161,8 @@
     "metrics-adjust.svg",
     "automated.svg",
     "status-on.svg",
+    "status-on-disabled.svg",
+    "status-off-disabled.svg",
     "status-on-override.svg",
     "unsaved-changes.svg",
     "status-off.svg",
@@ -186,6 +188,7 @@
     "ap-expand.svg",
     "brand.svg",
     "product-category.svg",
-    "override-indicator.svg"
+    "override-indicator.svg",
+    "folder-add.svg"
   ]
 }

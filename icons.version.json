@@ -1,6 +1,6 @@
 {
-  "version": "1.13",
-  "generated_at": "2025-10-24T11:23:47.049Z",
+  "version": "1.14",
+  "generated_at": "2025-10-27T09:43:19.199Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -160,6 +160,7 @@
     "campaign-type-hunch-post-boosting.svg",
     "metrics-adjust.svg",
     "automated.svg",
+    "automated-off.svg",
     "status-on.svg",
     "status-on-disabled.svg",
     "status-off-disabled.svg",

@@ -21,14 +21,6 @@
   <script>
     const ICONS = [];
 
-    const downloadBtn = document.getElementById("download-btn");
-if (data.version) {
-  const zipName = `icons-v${data.version}.zip`;
-  downloadBtn.href = `dist/${zipName}`;
-  downloadBtn.download = zipName;
-  downloadBtn.textContent = `⬇️ Download ${zipName}`;
-}
-
     const searchInput = document.getElementById('search');
     const grid = document.getElementById('icon-grid');
     const noResults = document.getElementById('no-results');
@@ -92,6 +84,14 @@ if (data.version) {
           console.error("Invalid icons.json format");
           return;
         }
+
+        const downloadBtn = document.getElementById("download-btn");
+if (data.version) {
+  const zipName = `icons-v${data.version}.zip`;
+  downloadBtn.href = `dist/${zipName}`;
+  downloadBtn.download = zipName;
+  downloadBtn.textContent = `⬇️ Download ${zipName}`;
+}
 
         const syncInfo = document.getElementById("sync-info");
         const versionInfo = document.getElementById("version-info");

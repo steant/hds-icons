@@ -1,6 +1,6 @@
 {
-  "version": "1.14",
-  "generated_at": "2025-10-27T09:43:19.199Z",
+  "version": "1.15",
+  "generated_at": "2025-10-31T20:16:16.095Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -162,6 +162,7 @@
     "automated.svg",
     "automated-off.svg",
     "status-on.svg",
+    "status-from-feed.svg",
     "status-on-disabled.svg",
     "status-off-disabled.svg",
     "status-on-override.svg",

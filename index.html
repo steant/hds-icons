@@ -8,7 +8,7 @@
 <body>
 
   <h1>Icon Gallery</h1>
-  <a href="dist/icons.zip" download class="download-btn">⬇️ Download icons.zip</a>
+  <a id="download-btn" href="#" download class="download-btn">⬇️ Download icons.zip</a>
   <div id="sync-info" class="sync-info"></div>
   <div id="version-info" class="sync-info"></div>
   <div id="icon-count" class="sync-info"></div>
@@ -20,6 +20,14 @@
 
   <script>
     const ICONS = [];
+
+    const downloadBtn = document.getElementById("download-btn");
+if (data.version) {
+  const zipName = `icons-v${data.version}.zip`;
+  downloadBtn.href = `dist/${zipName}`;
+  downloadBtn.download = zipName;
+  downloadBtn.textContent = `⬇️ Download ${zipName}`;
+}
 
     const searchInput = document.getElementById('search');
     const grid = document.getElementById('icon-grid');

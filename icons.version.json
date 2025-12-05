@@ -1,6 +1,6 @@
 {
-  "version": "1.18",
-  "generated_at": "2025-12-02T03:17:23.240Z",
+  "version": "1.19",
+  "generated_at": "2025-12-05T07:34:26.193Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -19,7 +19,9 @@
     "chervron-up.svg",
     "chevron-left-double.svg",
     "caret-down.svg",
+    "collpase-caret.svg",
     "caret-right.svg",
+    "expand-caret.svg",
     "caret-left.svg",
     "caret-up.svg",
     "check-circle-fill.svg",

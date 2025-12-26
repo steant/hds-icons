@@ -1,6 +1,6 @@
 {
-  "version": "1.19",
-  "generated_at": "2025-12-05T07:34:26.193Z",
+  "version": "1.20",
+  "generated_at": "2025-12-26T10:12:56.779Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -202,6 +202,9 @@
     "folder-add.svg",
     "set-include.svg",
     "set-include-exclude.svg",
-    "set-exclude.svg"
+    "set-exclude.svg",
+    "slack.svg",
+    "user.svg",
+    "user.svg"
   ]
 }

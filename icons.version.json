@@ -1,6 +1,6 @@
 {
-  "version": "1.21",
-  "generated_at": "2025-12-29T13:31:55.637Z",
+  "version": "1.22",
+  "generated_at": "2026-01-19T13:33:12.735Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -35,6 +35,7 @@
     "disconnect.svg",
     "copy-alt.svg",
     "draft.svg",
+    "incomplete.svg",
     "edit.svg",
     "download.svg",
     "image.svg",

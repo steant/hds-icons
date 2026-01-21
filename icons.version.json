@@ -1,6 +1,6 @@
 {
-  "version": "1.22",
-  "generated_at": "2026-01-19T13:33:12.735Z",
+  "version": "1.23",
+  "generated_at": "2026-01-21T10:43:57.815Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -206,6 +206,7 @@
     "set-exclude.svg",
     "slack.svg",
     "user.svg",
-    "user.svg"
+    "user.svg",
+    "number.svg"
   ]
 }

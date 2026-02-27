@@ -1,6 +1,6 @@
 {
-  "version": "1.24",
-  "generated_at": "2026-02-04T09:52:17.817Z",
+  "version": "1.25",
+  "generated_at": "2026-02-27T10:53:13.799Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -166,6 +166,7 @@
     "campaign-type-hunch-post-boosting.svg",
     "metrics-adjust.svg",
     "automated.svg",
+    "automated-error.svg",
     "connected-campaign.svg",
     "automated-off.svg",
     "automated-disabled.svg",
@@ -209,6 +210,7 @@
     "user.svg",
     "number.svg",
     "no-image.svg",
-    "dashboard.svg"
+    "dashboard.svg",
+    "logs.svg"
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "version": "1.25",
-  "generated_at": "2026-02-27T10:53:13.799Z",
+  "version": "1.26",
+  "generated_at": "2026-03-09T11:53:47.511Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -211,6 +211,9 @@
     "number.svg",
     "no-image.svg",
     "dashboard.svg",
-    "logs.svg"
+    "logs.svg",
+    "play-alt.svg",
+    "fork.svg",
+    "timer.svg"
   ]
 }

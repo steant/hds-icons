@@ -1,6 +1,6 @@
 {
-  "version": "1.26",
-  "generated_at": "2026-03-09T11:53:47.511Z",
+  "version": "1.27",
+  "generated_at": "2026-03-09T14:49:22.264Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -161,6 +161,7 @@
     "campaign-type-snapchat-mono.svg",
     "campaign-type-tiktok.svg",
     "output-type-pinterest.svg",
+    "output-type-pinterest-mono.svg",
     "metrics-google-analytics.svg",
     "metrics-appsflyer.svg",
     "campaign-type-hunch-post-boosting.svg",
@@ -214,6 +215,7 @@
     "logs.svg",
     "play-alt.svg",
     "fork.svg",
-    "timer.svg"
+    "timer.svg",
+    "output-type-reddit-mono.svg"
   ]
 }

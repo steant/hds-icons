@@ -35,7 +35,10 @@ async function getFileData() {
   const res = await fetch(`https://api.figma.com/v1/files/${FILE_ID}`, {
     headers: { "X-Figma-Token": FIGMA_TOKEN },
   });
-  if (!res.ok) throw new Error("❌ Failed to fetch Figma file data");
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`❌ Failed to fetch Figma file data: ${res.status} ${res.statusText} — ${body}`);
+  }
   return res.json();
 }
 
@@ -45,7 +48,10 @@ async function exportSvg(nodeIds) {
   const res = await fetch(url, {
     headers: { "X-Figma-Token": FIGMA_TOKEN },
   });
-  if (!res.ok) throw new Error("❌ Failed to export SVGs");
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`❌ Failed to export SVGs: ${res.status} ${res.statusText} — ${body}`);
+  }
   return (await res.json()).images;
 }
 
@@ -67,6 +73,9 @@ function bumpVersion(prev) {
 // Main logic
 (async () => {
   console.log("🔥 Sync started");
+
+  if (!FIGMA_TOKEN) throw new Error("❌ FIGMA_TOKEN is not set");
+  if (!FILE_ID) throw new Error("❌ FILE_ID is not set");
 
   fs.mkdirSync(ICONS_DIR, { recursive: true });
 

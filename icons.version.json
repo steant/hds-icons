@@ -1,6 +1,6 @@
 {
-  "version": "1.27",
-  "generated_at": "2026-03-09T14:49:22.264Z",
+  "version": "1.28",
+  "generated_at": "2026-04-28T13:10:24.629Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -216,6 +216,7 @@
     "play-alt.svg",
     "fork.svg",
     "timer.svg",
-    "output-type-reddit-mono.svg"
+    "output-type-reddit-mono.svg",
+    "log-out.svg"
   ]
 }

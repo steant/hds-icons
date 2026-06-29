@@ -1,6 +1,6 @@
 {
-  "version": "1.28",
-  "generated_at": "2026-04-28T13:10:24.629Z",
+  "version": "1.29",
+  "generated_at": "2026-06-29T10:20:59.043Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -172,6 +172,8 @@
     "automated-off.svg",
     "automated-disabled.svg",
     "status-on.svg",
+    "status-warning.svg",
+    "status-failed.svg",
     "status-from-feed.svg",
     "status-on-disabled.svg",
     "status-off-disabled.svg",
@@ -217,6 +219,11 @@
     "fork.svg",
     "timer.svg",
     "output-type-reddit-mono.svg",
-    "log-out.svg"
+    "log-out.svg",
+    "platforms.svg",
+    "globe.svg",
+    "professional-services.svg",
+    "live-events.svg",
+    "media-titles.svg"
   ]
 }

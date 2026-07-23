@@ -1,6 +1,6 @@
 {
-  "version": "1.29",
-  "generated_at": "2026-06-29T10:20:59.043Z",
+  "version": "1.30",
+  "generated_at": "2026-07-23T13:43:28.826Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -169,6 +169,7 @@
     "automated.svg",
     "automated-error.svg",
     "connected-campaign.svg",
+    "insert-ad.svg",
     "automated-off.svg",
     "automated-disabled.svg",
     "status-on.svg",
@@ -224,6 +225,7 @@
     "globe.svg",
     "professional-services.svg",
     "live-events.svg",
-    "media-titles.svg"
+    "media-titles.svg",
+    "scope.svg"
   ]
 }

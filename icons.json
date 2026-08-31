@@ -1,6 +1,6 @@
 {
-  "version": "1.30",
-  "generated_at": "2026-07-23T13:43:28.826Z",
+  "version": "1.31",
+  "generated_at": "2026-08-31T12:36:15.537Z",
   "icons": [
     "input.svg",
     "library.svg",
@@ -13,6 +13,8 @@
     "chevron-down.svg",
     "caret-down-alt.svg",
     "arrow-left.svg",
+    "arrow-up.svg",
+    "arrow-down.svg",
     "arrow-right.svg",
     "chevron-left.svg",
     "chevron-right.svg",
@@ -61,6 +63,7 @@
     "objective-traffic.svg",
     "ready.svg",
     "refresh.svg",
+    "undo.svg",
     "fullscreen.svg",
     "search.svg",
     "swap.svg",
@@ -226,6 +229,8 @@
     "professional-services.svg",
     "live-events.svg",
     "media-titles.svg",
-    "scope.svg"
+    "scope.svg",
+    "ai.svg",
+    "location-pin.svg"
   ]
 }

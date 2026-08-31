@@ -3,8 +3,10 @@ const fetch = require("node-fetch");
 const path = require("path");
 
 // Environment variables
-const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
-const FILE_ID = process.env.FILE_ID;
+// Trim: secrets pasted into GitHub Actions often carry a trailing newline,
+// which node-fetch rejects as an illegal HTTP header value.
+const FIGMA_TOKEN = (process.env.FIGMA_TOKEN || "").trim();
+const FILE_ID = (process.env.FILE_ID || "").trim();
 const PAGE_NAME = "Icons";
 
 const ICONS_DIR = path.join(__dirname, "..", "icons");
@@ -76,6 +78,10 @@ function bumpVersion(prev) {
 
   if (!FIGMA_TOKEN) throw new Error("❌ FIGMA_TOKEN is not set");
   if (!FILE_ID) throw new Error("❌ FILE_ID is not set");
+  if (!/^[\x20-\x7E]+$/.test(FIGMA_TOKEN))
+    throw new Error("❌ FIGMA_TOKEN contains invalid characters — re-save the secret without line breaks");
+  if (/[^\x21-\x7E]/.test(FILE_ID))
+    throw new Error(`❌ FILE_ID contains whitespace or invalid characters (${FILE_ID.length} chars) — re-save the secret without line breaks`);
 
   fs.mkdirSync(ICONS_DIR, { recursive: true });
 
